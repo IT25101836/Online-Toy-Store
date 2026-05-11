@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reviews - Toy Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #ff6600;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .navbar .dashboard-btn {
+            background-color: #333;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .navbar .profile-btn {
+            background-color: white;
+            color: #ff6600;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .container { padding: 30px; max-width: 900px; margin: 0 auto; }
+        h2 { color: #ff6600; }
+        .review-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .review-card h3 { color: #ff6600; margin: 0 0 5px 0; }
+        .stars { color: #ff6600; font-size: 20px; }
+        .review-meta { color: #999; font-size: 13px; margin-bottom: 8px; }
+        .review-comment { color: #333; font-size: 15px; }
+        .btn-delete {
+            padding: 6px 12px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+            float: right;
+        }
+        .add-review-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .add-review-section h3 { color: #ff6600; }
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        .btn-submit {
+            padding: 10px 20px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .empty-reviews {
+            text-align: center;
+            color: #999;
+            font-size: 18px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>🧸 Toy Store</h1>
+    <div>
+        <a href="/toys">Toys</a>
+        <a href="/cart">My Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/payments">Payments</a>
+        <a href="/home" class="dashboard-btn">Dashboard</a>
+        <a href="/profile" class="profile-btn">👤 Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <h2>Reviews</h2>
+    <div class="add-review-section">
+        <h3>Write a Review</h3>
+        <form action="/reviews/add" method="post">
+            <select name="toyId" required
+                    onchange="document.getElementById('toyName').value=this.options[this.selectedIndex].text">
+                <option value="">Select a Toy</option>
+                <option th:each="toy : ${toys}"
+                        th:value="${toy.toyId}"
+                        th:text="${toy.name}"></option>
+            </select>
+            <input type="hidden" id="toyName" name="toyName"/>
+            <select name="rating" required>
+                <option value="">Select Rating</option>
+                <option value="5">5 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="2">2 Stars</option>
+                <option value="1">1 Star</option>
+            </select>
+            <textarea name="comment"
+                      placeholder="Write your review here..."
+                      rows="3" required></textarea>
+            <button type="submit" class="btn-submit">Submit Review</button>
+        </form>
+    </div>
+    <div th:if="${#lists.isEmpty(reviews)}" class="empty-reviews">
+        <p>No reviews yet! Be the first to review a toy!</p>
+    </div>
+    <div th:each="review : ${reviews}" class="review-card">
+        <div th:if="${session.role == 'ADMIN'}">
+            <a th:href="@{/reviews/delete(reviewId=${review.reviewId})}"
+               class="btn-delete">Delete</a>
+        </div>
+        <h3 th:text="${review.toyName}"></h3>
+        <div class="stars">
+            <span th:each="i : ${#numbers.sequence(1, review.rating)}">★</span>
+            <span th:each="i : ${#numbers.sequence(review.rating + 1, 5)}">☆</span>
+        </div>
+        <div class="review-meta">
+            By <strong th:text="${review.username}"></strong>
+            on <span th:text="${review.date}"></span>
+        </div>
+        <div class="review-comment" th:text="${review.comment}"></div>
+    </div>
+</div>
+</body>
+</html>
