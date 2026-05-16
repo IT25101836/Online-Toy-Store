@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profile - Toy Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #ff6600;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .navbar .dashboard-btn {
+            background-color: #333;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .navbar .profile-btn {
+            background-color: white;
+            color: #ff6600;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .container { display: flex; justify-content: center; padding: 40px; }
+        .form-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 500px;
+        }
+        h2 { color: #ff6600; text-align: center; }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background-color: #e65c00; }
+        .message { color: green; font-weight: bold; text-align: center; }
+        .info-box {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .info-box p { margin: 5px 0; color: #666; }
+        .info-box strong { color: #ff6600; }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>🧸 Toy Store</h1>
+    <div>
+        <a href="/toys">Toys</a>
+        <a href="/cart">My Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/payments">Payments</a>
+        <a href="/home" class="dashboard-btn">Dashboard</a>
+        <a href="/profile" class="profile-btn">👤 Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <div class="form-box">
+        <h2>👤 My Profile</h2>
+        <p class="message" th:if="${message}" th:text="${message}"></p>
+        <div class="info-box">
+            <p>User ID: <strong th:text="${user.userId}"></strong></p>
+            <p>Email: <strong th:text="${user.email}"></strong></p>
+            <p>Role: <strong th:text="${user.role}"></strong></p>
+        </div>
+        <form action="/profile" method="post">
+            <input type="text" name="username"
+                   th:value="${user.username}"
+                   placeholder="Username" required/>
+            <input type="text" name="address"
+                   th:value="${user.address}"
+                   placeholder="Address" required/>
+            <button type="submit">Update Profile</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
