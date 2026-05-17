@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Review - Toy Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #ff6600;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+        .form-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 500px;
+            text-align: center;
+        }
+        h2 { color: #ff6600; }
+        .toy-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background-color: #e65c00; }
+        .back-link { text-align: center; margin-top: 15px; }
+        .back-link a { color: #ff6600; }
+        .stars-input { font-size: 30px; color: #ff6600; }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>🧸 Toy Store</h1>
+    <div>
+        <a href="/toys">Toys</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <div class="form-box">
+        <h2>Write a Review</h2>
+        <div class="toy-name" th:text="${toy.name}"></div>
+        <form action="/reviews/add" method="post">
+            <input type="hidden" name="toyId" th:value="${toy.toyId}"/>
+            <input type="hidden" name="toyName" th:value="${toy.name}"/>
+            <select name="rating" required>
+                <option value="">Select Rating</option>
+                <option value="5">★★★★★ 5 Stars</option>
+                <option value="4">★★★★☆ 4 Stars</option>
+                <option value="3">★★★☆☆ 3 Stars</option>
+                <option value="2">★★☆☆☆ 2 Stars</option>
+                <option value="1">★☆☆☆☆ 1 Star</option>
+            </select>
+            <textarea name="comment"
+                      placeholder="Write your review here..."
+                      rows="4" required></textarea>
+            <button type="submit">Submit Review</button>
+        </form>
+        <div class="back-link">
+            <a href="/reviews">Back to Reviews</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

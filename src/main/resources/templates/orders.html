@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Orders - Toy Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #ff6600;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .navbar .dashboard-btn {
+            background-color: #333;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .navbar .profile-btn {
+            background-color: white;
+            color: #ff6600;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .container { padding: 30px; max-width: 1000px; margin: 0 auto; }
+        h2 { color: #ff6600; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #ff6600;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        td { padding: 15px; border-bottom: 1px solid #eee; }
+        tr:hover { background-color: #fff3e0; }
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .status-delivered {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .status-processing {
+            background-color: #cce5ff;
+            color: #004085;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .btn-pay {
+            padding: 6px 14px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .empty-orders {
+            text-align: center;
+            color: #999;
+            font-size: 18px;
+            margin-top: 50px;
+        }
+        .message { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>🧸 Toy Store</h1>
+    <div>
+        <a href="/toys">Toys</a>
+        <a href="/cart">My Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/payments">Payments</a>
+        <a href="/home" class="dashboard-btn">Dashboard</a>
+        <a href="/profile" class="profile-btn">👤 Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <h2>📦 My Orders</h2>
+    <p class="message" th:if="${message}" th:text="${message}"></p>
+    <div th:if="${#lists.isEmpty(orders)}" class="empty-orders">
+        <p>No orders yet! <a href="/toys">Start Shopping</a></p>
+    </div>
+    <table th:if="${!#lists.isEmpty(orders)}">
+        <tr>
+            <th>Order ID</th>
+            <th>Toy Name</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.orderId}"></td>
+            <td th:text="${order.toyName}"></td>
+            <td th:text="${order.quantity}"></td>
+            <td th:text="'Rs. ' + ${order.totalPrice}"></td>
+            <td>
+                    <span th:class="${order.status == 'Pending' ?
+                          'status-pending' : (order.status == 'Processing' ?
+                          'status-processing' : 'status-delivered')}"
+                          th:text="${order.status}"></span>
+            </td>
+            <td th:text="${order.date}"></td>
+            <td>
+                <a th:if="${order.status == 'Pending'}"
+                   th:href="@{/payment(orderId=${order.orderId})}"
+                   class="btn-pay">Pay Now</a>
+                <span th:if="${order.status != 'Pending'}"
+                      style="color:#999;">Paid</span>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

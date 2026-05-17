@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment Reports - Admin</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #333;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .container { padding: 30px; max-width: 1100px; margin: 0 auto; }
+        h2 { color: #333; }
+        .revenue-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 25px 35px;
+            display: inline-block;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .revenue-card h3 {
+            color: #ff6600;
+            font-size: 36px;
+            margin: 0;
+        }
+        .revenue-card p { color: #666; margin: 5px 0 0 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        tr:hover { background-color: #f9f9f9; }
+        .status-paid {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .status-refunded {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .btn-print {
+            padding: 10px 20px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        @media print {
+            .navbar, .btn-print { display: none; }
+            body { background-color: white; }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Admin Panel - Toy Store</h1>
+        <div>
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/users">Users</a>
+            <a href="/admin/payments">Payments</a>
+            <a href="/toys">View Store</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div class="container">
+        <h2>Payment Reports</h2>
+        <div class="revenue-card">
+            <h3 th:text="'Rs. ' + ${totalRevenue}"></h3>
+            <p>Total Revenue</p>
+        </div>
+        <br/>
+        <button class="btn-print" onclick="window.print()">
+            Print Report
+        </button>
+        <table>
+            <tr>
+                <th>Payment ID</th>
+                <th>Order ID</th>
+                <th>User ID</th>
+                <th>Amount</th>
+                <th>Method</th>
+                <th>Status</th>
+                <th>Billing Name</th>
+                <th>Date</th>
+            </tr>
+            <tr th:each="payment : ${payments}">
+                <td th:text="${payment.paymentId}"></td>
+                <td th:text="${payment.orderId}"></td>
+                <td th:text="${payment.userId}"></td>
+                <td th:text="'Rs. ' + ${payment.amount}"></td>
+                <td th:text="${payment.method}"></td>
+                <td>
+                    <span th:class="${payment.status == 'Paid' ?
+                          'status-paid' : 'status-refunded'}"
+                          th:text="${payment.status}"></span>
+                </td>
+                <td th:text="${payment.billingName}"></td>
+                <td th:text="${payment.date}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

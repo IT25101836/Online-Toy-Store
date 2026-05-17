@@ -1,0 +1,2 @@
+U1,ranidu tharuna,123456,ranidutharuna2004@gmail.com,colombo,CUSTOMER
+A1,admin,admin123,admin@toystore.com,Admin Office,ADMIN

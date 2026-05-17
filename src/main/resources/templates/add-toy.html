@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Toy - Toy Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #ff6600;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .navbar .dashboard-btn {
+            background-color: #333;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .navbar .profile-btn {
+            background-color: white;
+            color: #ff6600;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .container { display: flex; justify-content: center; padding: 40px; }
+        .form-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 500px;
+        }
+        h2 { color: #ff6600; text-align: center; }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background-color: #e65c00; }
+        .back-link { text-align: center; margin-top: 15px; }
+        .back-link a { color: #ff6600; }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>🧸 Toy Store</h1>
+    <div>
+        <a href="/toys">Toys</a>
+        <a href="/cart">My Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/payments">Payments</a>
+        <a href="/home" class="dashboard-btn">Dashboard</a>
+        <a href="/profile" class="profile-btn">👤 Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <div class="form-box">
+        <h2>➕ Add New Toy</h2>
+        <form action="/admin/add-toy" method="post">
+            <input type="text" name="name"
+                   placeholder="Toy Name" required/>
+            <select name="category" required>
+                <option value="">Select Category</option>
+                <option value="Soft Toys">Soft Toys</option>
+                <option value="Electronic Toys">Electronic Toys</option>
+                <option value="Educational">Educational</option>
+                <option value="Outdoor">Outdoor</option>
+                <option value="Board Games">Board Games</option>
+            </select>
+            <input type="number" name="price"
+                   placeholder="Price (Rs.)" step="0.01" required/>
+            <input type="number" name="stock"
+                   placeholder="Stock Quantity" required/>
+            <textarea name="description"
+                      placeholder="Description" rows="3"></textarea>
+            <input type="text" name="imageUrl"
+                   placeholder="Image URL (paste image link here)"/>
+            <button type="submit">Add Toy</button>
+        </form>
+        <div class="back-link">
+            <a href="/toys">Back to Toys</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

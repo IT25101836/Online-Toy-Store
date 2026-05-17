@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment - Toy Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #ff6600;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .container { display: flex; justify-content: center; padding: 40px; }
+        .form-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 500px;
+        }
+        h2 { color: #ff6600; text-align: center; }
+        .order-total {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .order-total h3 { color: #ff6600; margin: 0; font-size: 24px; }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        .payment-methods {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .payment-method {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .payment-method:hover { border-color: #ff6600; }
+        .card-details {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: none;
+        }
+        .card-details h4 { color: #ff6600; margin: 0 0 10px 0; }
+        .otp-section {
+            display: none;
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .otp-section h4 { color: #28a745; margin: 0 0 10px 0; }
+        .otp-message {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #856404;
+        }
+        .otp-display {
+            font-size: 28px;
+            font-weight: bold;
+            color: #28a745;
+            letter-spacing: 8px;
+            margin: 10px 0;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        button:hover { background-color: #218838; }
+        .btn-otp {
+            background-color: #ff6600;
+            margin-top: 5px;
+        }
+        .btn-otp:hover { background-color: #e65c00; }
+        .back-link { text-align: center; margin-top: 15px; }
+        .back-link a { color: #ff6600; }
+        label { font-weight: bold; color: #333; }
+        .step {
+            background-color: #ff6600;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>🧸 Toy Store</h1>
+    <div>
+        <a href="/toys">Toys</a>
+        <a href="/cart">My Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/payments">Payments</a>
+        <a href="/home" style="background-color:#333; color:white; padding:6px 15px; border-radius:20px; font-weight:bold; margin-left:15px;">Dashboard</a>
+        <a href="/profile" style="background-color:white; color:#ff6600; padding:6px 15px; border-radius:20px; font-weight:bold; margin-left:10px;">Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <div class="form-box">
+        <h2>💳 Payment</h2>
+        <div class="order-total">
+            <p>Order ID: <strong th:text="${orderId}"></strong></p>
+            <h3 th:text="'Total: Rs. ' + ${total}"></h3>
+        </div>
+        <form action="/payment" method="post" id="paymentForm">
+            <input type="hidden" name="orderId" th:value="${orderId}"/>
+            <input type="hidden" name="amount" th:value="${total}"/>
+
+            <label><span class="step">1</span> Payment Method:</label>
+            <div class="payment-methods">
+                <label class="payment-method">
+                    <input type="radio" name="method"
+                           value="Card" required
+                           onclick="showCardDetails()"/>
+                    💳 Card Payment
+                </label>
+                <label class="payment-method">
+                    <input type="radio" name="method"
+                           value="COD"
+                           onclick="hidCardDetails()"/>
+                    💵 Cash on Delivery
+                </label>
+            </div>
+
+            <div class="card-details" id="cardDetails">
+                <h4>💳 Card Details</h4>
+                <input type="text" id="cardNumber"
+                       placeholder="Card Number (16 digits)"
+                       maxlength="16"/>
+                <input type="text" id="cardHolder"
+                       placeholder="Card Holder Name"/>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="expiryDate"
+                           placeholder="Expiry (MM/YY)"
+                           maxlength="5"/>
+                    <input type="text" id="cvv"
+                           placeholder="CVV"
+                           maxlength="3"/>
+                </div>
+                <input type="text" id="phoneNumber"
+                       placeholder="Phone Number for OTP"/>
+                <button type="button" class="btn-otp"
+                        onclick="sendOTP()">
+                    Send OTP
+                </button>
+
+                <div class="otp-section" id="otpSection">
+                    <h4>OTP Verification</h4>
+                    <div class="otp-message">
+                        OTP has been sent to your phone number!
+                    </div>
+                    <div class="otp-display" id="otpDisplay"></div>
+                    <p style="font-size:12px; color:#999;">
+                        (Use this OTP to verify)
+                    </p>
+                    <input type="text" id="otpInput"
+                           placeholder="Enter OTP here"
+                           maxlength="6"/>
+                    <button type="button"
+                            onclick="verifyOTP()">
+                        Verify OTP
+                    </button>
+                </div>
+            </div>
+
+            <label><span class="step">2</span> Billing Details:</label>
+            <input type="text" name="billingName"
+                   placeholder="Your full name" required/>
+            <input type="text" name="billingAddress"
+                   placeholder="Your address" required/>
+
+            <button type="submit" id="confirmBtn">
+                Confirm Payment
+            </button>
+        </form>
+        <div class="back-link">
+            <a href="/orders">Back to Orders</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var generatedOTP = "";
+
+    function showCardDetails() {
+        document.getElementById('cardDetails').style.display = 'block';
+    }
+
+    function hidCardDetails() {
+        document.getElementById('cardDetails').style.display = 'none';
+        document.getElementById('otpSection').style.display = 'none';
+    }
+
+    function sendOTP() {
+        var phone = document.getElementById('phoneNumber').value;
+        var cardNum = document.getElementById('cardNumber').value;
+
+        if (phone == "" || phone.length < 10) {
+            alert("Please enter a valid phone number!");
+            return;
+        }
+        if (cardNum == "" || cardNum.length < 16) {
+            alert("Please enter a valid 16 digit card number!");
+            return;
+        }
+
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+        document.getElementById('otpDisplay').innerText = generatedOTP;
+        document.getElementById('otpSection').style.display = 'block';
+        alert("OTP sent to " + phone + "!");
+    }
+
+    function verifyOTP() {
+        var enteredOTP = document.getElementById('otpInput').value;
+        if (enteredOTP == generatedOTP) {
+            alert("OTP Verified Successfully! ✅");
+            document.getElementById('otpSection').style.backgroundColor = '#d4edda';
+            document.getElementById('confirmBtn').style.backgroundColor = '#28a745';
+        } else {
+            alert("Invalid OTP! Please try again.");
+        }
+    }
+</script>
+</body>
+</html>

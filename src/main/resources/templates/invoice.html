@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Invoice - Toy Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #ff6600;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .navbar .dashboard-btn {
+            background-color: #333;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .navbar .profile-btn {
+            background-color: white;
+            color: #ff6600;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+        .invoice-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 600px;
+        }
+        .invoice-header {
+            text-align: center;
+            border-bottom: 2px solid #ff6600;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .invoice-header h1 { color: #ff6600; margin: 0; }
+        .invoice-header p { color: #666; margin: 5px 0; }
+        .success-badge {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        .invoice-details { margin-bottom: 20px; }
+        .invoice-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .invoice-details td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .invoice-details td:first-child {
+            font-weight: bold;
+            color: #666;
+            width: 40%;
+        }
+        .total-section {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: right;
+            margin-top: 20px;
+        }
+        .total-section h3 {
+            color: #ff6600;
+            font-size: 24px;
+            margin: 0;
+        }
+        .btn-print {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .btn-orders {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #ff6600;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        @media print {
+            .navbar, .btn-print, .btn-orders { display: none; }
+            body { background-color: white; }
+        }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>🧸 Toy Store</h1>
+    <div>
+        <a href="/toys">Toys</a>
+        <a href="/cart">My Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/payments">Payments</a>
+        <a href="/home" class="dashboard-btn">Dashboard</a>
+        <a href="/profile" class="profile-btn">👤 Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <div class="invoice-box">
+        <div class="invoice-header">
+            <h1>🧸 Toy Store</h1>
+            <p>Official Invoice</p>
+            <div class="success-badge">Payment Successful!</div>
+        </div>
+        <div class="invoice-details">
+            <table>
+                <tr>
+                    <td>Order ID:</td>
+                    <td th:text="${orderId}"></td>
+                </tr>
+                <tr>
+                    <td>Billing Name:</td>
+                    <td th:text="${billingName}"></td>
+                </tr>
+                <tr>
+                    <td>Billing Address:</td>
+                    <td th:text="${billingAddress}"></td>
+                </tr>
+                <tr>
+                    <td>Payment Method:</td>
+                    <td th:text="${method}"></td>
+                </tr>
+                <tr>
+                    <td>Payment Status:</td>
+                    <td style="color: green; font-weight: bold;">Paid</td>
+                </tr>
+            </table>
+        </div>
+        <div class="total-section">
+            <h3 th:text="'Total Paid: Rs. ' + ${amount}"></h3>
+        </div>
+        <button class="btn-print" onclick="window.print()">
+            Print Invoice
+        </button>
+        <a href="/orders" class="btn-orders">Back to My Orders</a>
+    </div>
+</div>
+</body>
+</html>

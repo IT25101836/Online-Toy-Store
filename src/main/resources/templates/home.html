@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home - Toy Store</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+        }
+        .navbar {
+            background-color: #ff6600;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+        .navbar .dashboard-btn {
+            background-color: #333;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .navbar .profile-btn {
+            background-color: white;
+            color: #ff6600;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* Banner */
+        .banner {
+            background: linear-gradient(135deg, #ff6600, #ff9900, #ffcc00);
+            padding: 60px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .banner-floating {
+            position: absolute;
+            font-size: 50px;
+            opacity: 0.15;
+            animation: float 6s infinite ease-in-out;
+        }
+        .banner-floating:nth-child(1) { left: 5%; top: 10%; animation-delay: 0s; }
+        .banner-floating:nth-child(2) { left: 85%; top: 10%; animation-delay: 1s; }
+        .banner-floating:nth-child(3) { left: 15%; top: 50%; animation-delay: 2s; }
+        .banner-floating:nth-child(4) { left: 75%; top: 50%; animation-delay: 3s; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        .banner-content { position: relative; z-index: 1; }
+        .banner-content h1 {
+            font-size: 48px;
+            color: white;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+        .banner-content p {
+            font-size: 20px;
+            color: white;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+        .banner-btn {
+            padding: 15px 40px;
+            background-color: white;
+            color: #ff6600;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            margin: 5px;
+            display: inline-block;
+        }
+        .banner-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .banner-btn-dark {
+            background-color: #333;
+            color: white;
+        }
+
+        /* Welcome section */
+        .welcome {
+            text-align: center;
+            padding: 30px;
+            background-color: white;
+            border-bottom: 2px solid #fff3e0;
+        }
+        .welcome h2 { color: #ff6600; font-size: 28px; }
+        .welcome p { color: #666; font-size: 16px; }
+
+        /* Cards */
+        .cards-section { padding: 30px; }
+        .cards-section h3 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 4px solid #ff6600;
+        }
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 180px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid #ff6600;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            background-color: #fff3e0;
+        }
+        .card .icon { font-size: 40px; margin-bottom: 10px; }
+        .card h3 { color: #ff6600; font-size: 16px; margin-bottom: 5px; }
+        .card p { font-size: 12px; color: #999; }
+
+        /* Features */
+        .features {
+            background: white;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 20px;
+        }
+        .feature-item .icon { font-size: 40px; margin-bottom: 10px; }
+        .feature-item h4 { color: #ff6600; margin-bottom: 5px; }
+        .feature-item p { color: #999; font-size: 13px; }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>🧸 Toy Store</h1>
+    <div>
+        <a href="/toys">Toys</a>
+        <a href="/cart">My Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/payments">Payments</a>
+        <a href="/home" class="dashboard-btn">Dashboard</a>
+        <a href="/profile" class="profile-btn">👤 Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<!-- Banner -->
+<div class="banner">
+    <div class="banner-floating">🧸</div>
+    <div class="banner-floating">🎮</div>
+    <div class="banner-floating">🚗</div>
+    <div class="banner-floating">🎲</div>
+    <div class="banner-content">
+        <h1>Welcome, <span th:text="${user != null ? user.username : 'Guest'}"></span>! 👋</h1>
+        <p>Discover Amazing Toys for Your Little Ones!</p>
+        <a href="/toys" class="banner-btn">Shop Now</a>
+        <a href="/orders" class="banner-btn banner-btn-dark">My Orders</a>
+    </div>
+</div>
+
+<!-- Welcome -->
+<div class="welcome">
+    <h2>What would you like to do today?</h2>
+    <p>Browse our amazing collection of toys!</p>
+</div>
+
+<!-- Cards -->
+<div class="cards-section">
+    <h3>Quick Access</h3>
+    <div class="cards">
+        <a href="/toys" class="card">
+            <div class="icon">🪀</div>
+            <h3>Browse Toys</h3>
+            <p>See all available toys</p>
+        </a>
+        <a href="/cart" class="card">
+            <div class="icon">🛒</div>
+            <h3>My Cart</h3>
+            <p>View your cart</p>
+        </a>
+        <a href="/orders" class="card">
+            <div class="icon">📦</div>
+            <h3>My Orders</h3>
+            <p>Track your orders</p>
+        </a>
+        <a href="/reviews" class="card">
+            <div class="icon">⭐</div>
+            <h3>Reviews</h3>
+            <p>View reviews</p>
+        </a>
+        <a href="/payments" class="card">
+            <div class="icon">💳</div>
+            <h3>Payments</h3>
+            <p>Payment history</p>
+        </a>
+        <a href="/profile" class="card">
+            <div class="icon">👤</div>
+            <h3>Profile</h3>
+            <p>Update your info</p>
+        </a>
+    </div>
+</div>
+
+<!-- Features -->
+<div class="features">
+    <div class="feature-item">
+        <div class="icon">🚚</div>
+        <h4>Fast Delivery</h4>
+        <p>Quick delivery to your door</p>
+    </div>
+    <div class="feature-item">
+        <div class="icon">💯</div>
+        <h4>Quality Toys</h4>
+        <p>Only the best quality</p>
+    </div>
+    <div class="feature-item">
+        <div class="icon">💳</div>
+        <h4>Secure Payment</h4>
+        <p>Safe and secure checkout</p>
+    </div>
+    <div class="feature-item">
+        <div class="icon">⭐</div>
+        <h4>Top Rated</h4>
+        <p>Loved by thousands</p>
+    </div>
+    <div class="feature-item">
+        <div class="icon">🔄</div>
+        <h4>Easy Returns</h4>
+        <p>Hassle free returns</p>
+    </div>
+</div>
+</body>
+</html>

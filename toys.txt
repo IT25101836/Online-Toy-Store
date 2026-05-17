@@ -1,0 +1,2 @@
+T1|car|Electronic Toys|1300.0|20|good|https://fliptoy.in/cdn/shop/products/slider-22.jpg
+T2|teddy bear|Soft Toys|999.99|50|good|https://soosweetshop.ca/upload/product/913-1681803506990-CROPPED.jpg

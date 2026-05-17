@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register - Toy Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #ff6600;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background-color: #e65c00; }
+        .link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .link a { color: #ff6600; }
+    </style>
+</head>
+<body>
+<div class="form-box">
+    <h2>🧸 Register</h2>
+    <form action="/register" method="post">
+        <input type="text" name="username" placeholder="Username" required/>
+        <input type="password" name="password" placeholder="Password" required/>
+        <input type="email" name="email" placeholder="Email" required/>
+        <input type="text" name="address" placeholder="Address" required/>
+        <button type="submit">Register</button>
+    </form>
+    <div class="link">
+        <p>Already have an account? <a href="/login">Login here</a></p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Users - Admin</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #333;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .container { padding: 30px; }
+        h2 { color: #333; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #333;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        tr:hover { background-color: #f9f9f9; }
+        .btn-delete {
+            padding: 6px 12px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .role-admin {
+            background-color: #333;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .role-customer {
+            background-color: #fff3e0;
+            color: #ff6600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .message { color: green; font-weight: bold; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>Admin Panel - Toy Store</h1>
+    <div>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/users">Users</a>
+        <a href="/admin/add-toy">Add Toy</a>
+        <a href="/toys">View Store</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <h2>Manage Users</h2>
+    <p class="message" th:if="${message}" th:text="${message}"></p>
+    <table>
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.address}"></td>
+            <td>
+                    <span th:class="${user.role == 'ADMIN' ?
+                          'role-admin' : 'role-customer'}"
+                          th:text="${user.role}"></span>
+            </td>
+            <td>
+                <a th:href="@{/admin/delete-user(userId=${user.userId})}"
+                   class="btn-delete">Delete</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
