@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Cart - Toy Store</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 0; }
+        .navbar {
+            background-color: #ff6600;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { color: white; margin: 0; }
+        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .container { padding: 30px; max-width: 900px; margin: 0 auto; }
+        h2 { color: #ff6600; }
+        .cart-item {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .cart-item .no-image {
+            width: 100px;
+            height: 100px;
+            background-color: #fff3e0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        .cart-item-info { flex: 1; }
+        .cart-item-info h3 { color: #ff6600; margin: 0 0 5px 0; }
+        .cart-item-info .price { font-size: 18px; font-weight: bold; }
+        .btn-remove {
+            padding: 8px 15px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .cart-summary {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: right;
+        }
+        .cart-summary h3 { color: #333; }
+        .cart-summary .total {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6600;
+        }
+        .btn-checkout {
+            padding: 12px 30px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .btn-checkout:hover { background-color: #218838; }
+        .empty-cart {
+            text-align: center;
+            color: #999;
+            font-size: 18px;
+            margin-top: 50px;
+        }
+        .message { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="navbar">
+    <h1>🧸 Toy Store</h1>
+    <div>
+        <a href="/toys">Toys</a>
+        <a href="/cart">My Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/reviews">Reviews</a>
+        <a href="/payments">Payments</a>
+        <a href="/home" style="background-color:#333; color:white; padding:6px 15px; border-radius:20px; font-weight:bold; margin-left:15px;">Dashboard</a>
+        <a href="/profile" style="background-color:white; color:#ff6600; padding:6px 15px; border-radius:20px; font-weight:bold; margin-left:10px;">👤 Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <h2>🛒 My Cart</h2>
+    <p class="message" th:if="${message}" th:text="${message}"></p>
+    <div th:if="${#lists.isEmpty(cartItems)}" class="empty-cart">
+        <p>Your cart is empty! <a href="/toys">Browse Toys</a></p>
+    </div>
+    <div th:each="item : ${cartItems}" class="cart-item">
+        <div th:if="${item.imageUrl != null && !item.imageUrl.isEmpty()}">
+            <img th:src="${item.imageUrl}" alt="Toy"/>
+        </div>
+        <div th:if="${item.imageUrl == null || item.imageUrl.isEmpty()}"
+             class="no-image">🧸</div>
+        <div class="cart-item-info">
+            <h3 th:text="${item.toyName}"></h3>
+            <p>Quantity: <strong th:text="${item.quantity}"></strong></p>
+            <p class="price" th:text="'Rs. ' + ${item.total}"></p>
+        </div>
+        <a th:href="@{/cart/remove(cartItemId=${item.cartItemId})}"
+           class="btn-remove">Remove</a>
+    </div>
+    <div th:if="${!#lists.isEmpty(cartItems)}" class="cart-summary">
+        <h3>Total: <span class="total"
+                         th:text="'Rs. ' + ${total}"></span></h3>
+        <form action="/cart/checkout" method="post">
+            <button type="submit" class="btn-checkout">
+                Place Order
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

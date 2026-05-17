@@ -1,0 +1,3 @@
+C1,U1,T1,car,1300.0,1,https://fliptoy.in/cdn/shop/products/slider-22.jpg
+C2,U3,T10,Kids Basketball Hoop Set,6000.0,2,https://www.inspireuplift.com/resizer/?image=https://cdn.inspireuplift.com/uploads/images/seller_products/82272/iu_1768535013_6.jpeg&width=1000&height=1000&quality=90&format=auto&fit=pad
+C3,U3,T6,Rainbow Learning Puzzle,650.99,3,https://i.etsystatic.com/51622277/r/il/4ee379/7077406909/il_fullxfull.7077406909_f2w5.jpg
